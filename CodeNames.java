@@ -1,6 +1,7 @@
 
 package codenames;
 
+
 import java.io.*; 
 import java.awt.*;
 import java.awt.geom.*;
@@ -9,16 +10,12 @@ import javax.swing.*;
 
 public class CodeNames extends JFrame implements Runnable {
 
-    static CodeNames frame;
-    final static int WINDOW_WIDTH = 1920;
-    final static int WINDOW_HEIGHT = 1080; 
+    
     
     public static void main(String[] args) {
         
-        frame = new CodeNames();
-        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        GameStart startWindow = new GameStart();
+        
         
     }
     public void run() {
