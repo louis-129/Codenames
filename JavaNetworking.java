@@ -32,8 +32,10 @@ public class JavaNetworking extends JFrame implements Runnable
 //jy added for multiple variables.    
     public static int serverX = (int)(Math.random()*200)+100;
     public static int serverY = (int)(Math.random()*200)+100;
+    public static int serverScore = 0;
     public static int clientX = (int)(Math.random()*200)+100;
     public static int clientY = (int)(Math.random()*200)+100;
+    public static int clientScore = 0;
     
     Thread relaxer;
 
@@ -102,13 +104,15 @@ public class JavaNetworking extends JFrame implements Runnable
                     {
                         System.out.println("sending from client");
                         clientY+=2;
-                        ClientHandler.sendPieceMove(clientX,clientY);
+                        clientScore++;
+                        ClientHandler.sendPieceMove(clientX,clientY,clientScore);
                     }
                     else
                     {
                         System.out.println("sending from server");
                         serverY+=2;
-                        ServerHandler.sendPieceMove(serverX,serverY);
+                        serverScore++;
+                        ServerHandler.sendPieceMove(serverX,serverY,serverScore);
                     }               
                 }                        
                 else if (myTurn && gameStarted && e.getKeyCode() == KeyEvent.VK_UP)
@@ -117,13 +121,15 @@ public class JavaNetworking extends JFrame implements Runnable
                     {
                         System.out.println("sending from client");
                         clientY-=2;
-                        ClientHandler.sendPieceMove(clientX,clientY);
+                        clientScore++;
+                        ClientHandler.sendPieceMove(clientX,clientY,clientScore);
                     }
                     else
                     {
                         System.out.println("sending from server");
                         serverY-=2;
-                        ServerHandler.sendPieceMove(serverX,serverY);
+                        serverScore++;
+                        ServerHandler.sendPieceMove(serverX,serverY,serverScore);
                     }                            
                 }                                                       
                 else if (myTurn && gameStarted && e.getKeyCode() == KeyEvent.VK_LEFT)
@@ -132,13 +138,15 @@ public class JavaNetworking extends JFrame implements Runnable
                     {
                         System.out.println("sending from client");
                         clientX-=2;
-                        ClientHandler.sendPieceMove(clientX,clientY);
+                        clientScore++;
+                        ClientHandler.sendPieceMove(clientX,clientY,clientScore);
                     }
                     else
                     {
                         System.out.println("sending from server");
                         serverX-=2;
-                        ServerHandler.sendPieceMove(serverX,serverY);
+                        serverScore++;
+                        ServerHandler.sendPieceMove(serverX,serverY,serverScore);
                     }                    
                 }                        
                 else if (myTurn && gameStarted && e.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -147,13 +155,15 @@ public class JavaNetworking extends JFrame implements Runnable
                     {
                         System.out.println("sending from client");
                         clientX+=2;
-                        ClientHandler.sendPieceMove(clientX,clientY);
+                        clientScore++;
+                        ClientHandler.sendPieceMove(clientX,clientY,clientScore);
                     }
                     else
                     {
                         System.out.println("sending from server");
                         serverX+=2;
-                        ServerHandler.sendPieceMove(serverX,serverY);
+                        serverScore++;
+                        ServerHandler.sendPieceMove(serverX,serverY,serverScore);
                     }                            
                 }                        
 
@@ -422,12 +432,12 @@ public class JavaNetworking extends JFrame implements Runnable
             if (isClient)
             {
                 System.out.println("sending from client");
-                    ClientHandler.sendPieceMove(clientX,clientY);
+                    ClientHandler.sendPieceMove(clientX,clientY,clientScore);
             }
             else
             {
                 System.out.println("sending from server");
-                    ServerHandler.sendPieceMove(serverX,serverY);
+                    ServerHandler.sendPieceMove(serverX,serverY,serverScore);
             }            
         }
 
