@@ -60,12 +60,12 @@ public class ClientHandler
     }
         
 //jy added for multiple variables.         
-    public static void sendPieceMove(int val1,int val2)
+    public static void sendPieceMove(int val1,int val2, int val3)
     {
         if (connected)
         {
 //jy added for multiple variables.                    
-            out.println(val1 + ":" + val2);
+            out.println(val1 + ":" + val2 + ":" + val3);
             out.flush(); 
             JavaNetworking.myTurn = false;
         }        
@@ -103,6 +103,7 @@ public class ClientHandler
                             int post3 = Integer.parseInt(inputLine.split(":")[2]);
                             JavaNetworking.serverX=post1;
                             JavaNetworking.serverY=post2;
+                            JavaNetworking.serverScore=post3;
                             JavaNetworking.myTurn = true;
                         }
                         catch (NumberFormatException e)
@@ -128,5 +129,5 @@ public class ClientHandler
         return connected;
     }
 }
-//ex
+
  
