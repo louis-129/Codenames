@@ -91,7 +91,8 @@ public class GameStart implements ActionListener {
         
         if(e.getSource()==play){
             
-            
+            GameWindow window = new GameWindow();
+            frame.dispose();
             
         }
         else if(e.getSource()==rules){
