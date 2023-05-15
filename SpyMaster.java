@@ -187,43 +187,24 @@ public class Codenames2 extends JFrame implements Runnable {
                     getWidth2()/numColumns,
                     getHeight2()/numRows);
                 }  
-//Draw the square gray if the square location is SECR and the secret passage is not active.                
-              //  else if (board[zrow][zcolumn] == SECR && !secretActive) 
-              //  {
-                //    g.setColor(Color.gray);
-                //    g.fillRect(getX(0)+zcolumn*getWidth2()/numColumns,
-               //     getY(0)+zrow*getHeight2()/numRows,
-                //    getWidth2()/numColumns,
-                //    getHeight2()/numRows);  
-               // }
-//Draw the square magenta if the square location is SECR and the secret passage is active.                
-              //  else if (board[zrow][zcolumn] == SECR && secretActive)
-               // {
-              //      g.setColor(Color.magenta);
-               //     g.fillRect(getX(0)+zcolumn*getWidth2()/numColumns,
-              //      getY(0)+zrow*getHeight2()/numRows,
-               //     getWidth2()/numColumns,
-               //     getHeight2()/numRows);  
-               //}                    
+                  
             }
         }            
 
-//Draw the npcs.
-      //  for (int i=0;i<Character.numNpcs;i++)
-      //      npcs[i].Draw(g, frame);
 //Draw the coins.
+
 for (int zrow=0;zrow<numRows;zrow++)
         {
             for (int zcolumn=0;zcolumn<numColumns;zcolumn++)
             {
+                if (board[zrow][zcolumn] == PATH  ){
         for (int i=0;i<Coin.numCoins;i++)
             coins[i].Draw(g, frame);
          for (int i=0;i<Coin2.numCoins;i++)
             coins2[i].Draw(g, frame);
             }
-//Draw the player
-      //  player.Draw(g, frame);
-                       
+        }
+                
         if (gameOver)
         {
             g.setColor(Color.black);
@@ -255,30 +236,11 @@ for (int zrow=0;zrow<numRows;zrow++)
         timeCount = 0;
         gameOver = false;
         secretActive = false;
-//Initialize the player variables.        
-      //  player = new Character(frame,true);
-      //  player.setColor(Color.green);
-      //  player.setName("Player");
-//Initialize the coin variables.
         for (int i=0;i<Coin.numCoins;i++)
             coins[i] = new Coin(frame);
          for (int i=0;i<Coin2.numCoins;i++)
             coins2[i] = new Coin2(frame);
-//Initialize the npc variables.        
-      //  for (int i=0;i<Character.numNpcs;i++)
-      //      npcs[i] = new Character(frame,false);
-      //  npcs[0].setColor(Color.red);
-      //  npcs[0].setName("Freddy");
-      //  npcs[0].setSpeed(2);
-      //  npcs[1].setColor(Color.blue);
-      //  npcs[1].setName("Kiki");
-      //  npcs[1].setSpeed(8);
-       // npcs[2].setColor(Color.cyan);
-       // npcs[2].setName("Tino");
-        //npcs[2].setSpeed(12);
-        //npcs[3].setColor(Color.pink);
-       // npcs[3].setName("Rocky");
-       // npcs[3].setSpeed(4);
+
     }
 /////////////////////////////////////////////////////////////////////////
     public void animate() {
@@ -291,42 +253,7 @@ for (int zrow=0;zrow<numRows;zrow++)
             reset();
         }
 
-      //  if (gameOver)
-      //      return;
-//Game over if an npc runs into the player.        
-      //  for (int i=0;i<Character.numNpcs;i++)
-     //   {
-    //        if (npcs[i].Collide(player.row,player.column))
-     //           gameOver = true;
-     //   }
-
-//Move the npcs.
-     //   for (int i=0;i<Character.numNpcs;i++)
-  //          npcs[i].Move(frame,timeCount);
-//Move the player.        
-  //      player.Move(frame,timeCount);
-//Determine if the player has collected a coin.
-     //   for (int i=0;i<Coin.numCoins;i++)
-     //   {
-       //     int value = coins[i].Collect(player.row,player.column);
-       //     player.value += value;
-       // }        
-//Show the secret passage if the player has an odd number of coins.            
-      //  if (player.value % 2 == 1)
-      //      secretActive = true;          
-    //    else
-         //   secretActive = false;
-
-//Determine if an npc has collected a coin.       
-     //  for (int i=0;i<Coin.numCoins;i++)
-      //  {
-         //   for (int j=0;j<Character.numNpcs;j++)
-         //   {
-         //       int value = coins[i].Collect(npcs[j].row,npcs[j].column);
-          //      npcs[j].value += value;
-          //  }
-       // }        
-        
+    
         timeCount++;
     }
     
@@ -441,6 +368,7 @@ class Coin2 {
         //value = (int)(Math.random()*5)+2;
     //    active = true;
 //Position the coin on a random path location.        
+       //if(frame.board[row][column] == null)
         do {
             row = (int)(Math.random()*Codenames2.numRows);
             column = (int)(Math.random()*Codenames2.numColumns);
