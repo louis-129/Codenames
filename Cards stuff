@@ -4,11 +4,11 @@ package codenames;
 import java.awt.*;
 public abstract class Cards {
 public Color color;
-  public static int numCards;
+  
     public int row;
     public int column;
-  //  abstract public Color getColor( Color _color);
-    Cards(Color _color, int numCards)
+  
+    Cards(Color _color)
     {
       
      _color=color;
@@ -16,20 +16,11 @@ public Color color;
       public String getType() {
         return ("Card");
     }
-  
-    
-    
-      abstract public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta);//(Graphics2D g,int row,int column,int xdelta,int ydelta) {
-    /*    g.setColor(color);
-        g.fillRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
-        g.setColor(Color.black);
-        g.drawRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+    abstract public void ChangeColor();
         
-        g.setColor(Color.black);
-        g.setFont (new Font ("Arial",Font.PLAIN, 50));
-        g.drawString("hello",Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
-     */   
-    }    
+    abstract public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta);
+    
+    }     
 
 /////////////////////////////////////////////////
 
@@ -39,8 +30,12 @@ import java.awt.*;
 import java.awt.Color;
 
 public class NeutralCard extends Cards{
+    public static int numNeutral = 8;
+    
+    public final static Color NeutralColor =  new Color(215,200,176);
+    
     NeutralCard(Color _color){
-       super( _color,8); 
+       super( _color); 
     }
   
    public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
@@ -59,14 +54,13 @@ public class NeutralCard extends Cards{
     _color= color;
     return (_color);
     }
-    public void ChangeColor( Color _color){
-        color = _color;
+    public void ChangeColor( ){
+        color = NeutralColor;
         
     }
      public String getType() {
         return ("NeutralCard ");
     }
-}
 ///////////////////////////////////////////////
 
 package codenames;
@@ -75,8 +69,10 @@ import java.awt.*;
 import java.awt.Color;
 
 public class RedCard extends Cards{
+    public static int numRed = 8;
+    public static final Color RedColor = Color.RED;
     RedCard(Color _color){
-       super( _color,8); 
+       super( _color); 
     }
   
    public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
@@ -95,8 +91,8 @@ public class RedCard extends Cards{
     _color= color;
     return (_color);
     }
-    public void ChangeColor( Color _color){
-        color = _color;
+    public void ChangeColor( ){
+        color = RedColor;
         
     }
      public String getType() {
@@ -111,8 +107,10 @@ import java.awt.*;
 import java.awt.Color;
 
 public class BlueCard extends Cards{
+    public static int numBlue = 8;
+     public static final Color BlueColor = Color.BLUE;
     BlueCard(Color _color){
-       super( _color,8); 
+       super( _color); 
     }
   
    public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
@@ -131,8 +129,8 @@ public class BlueCard extends Cards{
     _color= color;
     return (_color);
     }
-    public void ChangeColor( Color _color){
-        color = _color;
+    public void ChangeColor( ){
+        color = BlueColor;
         
     }
      public String getType() {
@@ -141,14 +139,12 @@ public class BlueCard extends Cards{
 }
 /////////////////////////////////////////
 
-package codenames;
-import java.awt.*;
-
-import java.awt.Color;
-
 public class BlackCard extends Cards{
+    public static int numBlack = 1;
+    public static final Color BlackColor = Color.BLACK;
+    
     BlackCard(Color _color){
-       super( _color,8); 
+       super( _color); 
     }
   
    public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
@@ -157,7 +153,7 @@ public class BlackCard extends Cards{
         g.setColor(Color.black);
         g.drawRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
         
-        g.setColor(Color.black);
+        g.setColor(Color.white);
         g.setFont (new Font ("Arial",Font.PLAIN, 50));
         g.drawString("hello",Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
     }
@@ -167,8 +163,8 @@ public class BlackCard extends Cards{
     _color= color;
     return (_color);
     }
-    public void ChangeColor( Color _color){
-        color = _color;
+    public void ChangeColor(){
+        color = BlackColor;
         
     }
      public String getType() {
@@ -184,8 +180,10 @@ import java.awt.*;
 import java.awt.Color;
 
 public class SpecialCard extends Cards{
+    public static int numSpecial = 1;
+     public static final Color SpecialColor = Color.MAGENTA;
     SpecialCard(Color _color){
-       super( _color,8); 
+       super( _color); 
     }
   
    public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
@@ -204,8 +202,8 @@ public class SpecialCard extends Cards{
     _color= color;
     return (_color);
     }
-    public void ChangeColor( Color _color){
-        color = _color;
+    public void ChangeColor( ){
+        color = SpecialColor;
         
     }
      public String getType() {
