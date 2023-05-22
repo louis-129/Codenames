@@ -1,26 +1,33 @@
-
 package codenames;
 
 import java.awt.*;
 public abstract class Cards {
 public Color color;
+public String word;
   
-    public int row;
-    public int column;
+public String[] words = {"Africa", "Ambulance", "Band", "Car", "Europe", "Circle",
+    "Paper", "Parachute", "Park","Dog","Foot","Fish","Fly","Hotel","Ice Cream", "Mexico", "Mine", "Missile","Pyramid", "Queen", "Scientist","Sock", "Turkey","Vet","Water", "Vacuum", "Zebra"  };
+
+
   
     Cards(Color _color)
     {
       
      _color=color;
+     word = words[(int)(Math.random()*words.length)];
+
+     
+     
     }
-      public String getType() {
+     public String getType() {
         return ("Card");
     }
+    abstract public String getWord();
     abstract public void ChangeColor();
         
     abstract public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta);
     
-    }     
+    }    
 
 /////////////////////////////////////////////////
 
