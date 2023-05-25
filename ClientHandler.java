@@ -1,92 +1,92 @@
+
 package javanetworking;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.io.*;
 
-
-public class ClientHandler
+public class ServerHandler
 {
     public static boolean connected = false;
-    private static         Socket MyClient;
-    private static         BufferedReader br;
-    private static         PrintWriter out;
-    private static String hostIP = null;
-    private static int hostPort = -1;
-        
-//    private static Socket server = null;
+    private static        ServerSocket MyServer;
+    private static        Socket clientSocket;
+    private static        OutputStream os;
+    private static        PrintWriter pw;
+    private static        BufferedReader br;
+   
+//    private static Socket client = null;
 //    private static PrintWriter serverOut = null;
 //    private static BufferedReader serverIn = null;
 
-    public static void connect(String ip, int port) throws UnknownHostException, IOException
+    public static void receiveConnect(int port) throws UnknownHostException, IOException, SocketTimeoutException
     {
-            hostIP = ip;
-            hostPort = port;
-            MyClient = new Socket(ip, port);
-            br = new BufferedReader(new InputStreamReader(MyClient.getInputStream()));
-            out = new PrintWriter(MyClient.getOutputStream(), true);
-                
-//        server = new Socket();
-//        server.connect(new InetSocketAddress(ip, port), 6000);
-//        serverOut = new PrintWriter(server.getOutputStream(), true);
-//        serverIn = new BufferedReader(new InputStreamReader(server.getInputStream()));
+//        ServerSocket server = new ServerSocket(port);
+//        server.setSoTimeout(8000);
+//        client = server.accept();
+//        serverOut = new PrintWriter(client.getOutputStream(), true);
+//        serverIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        
+        MyServer = new ServerSocket(port);
+        clientSocket = MyServer.accept();
+        os = clientSocket.getOutputStream();
+        pw = new PrintWriter(os, true);
+        br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        
         connected = true;
         receiveGuess();
+        
     }
 
     public static void disconnect()
     {
-            try
-            {
-                if (MyClient != null)
-                        MyClient.close();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            hostIP = null;
-            hostPort = -1;
-            MyClient = null;
-            out = null;
-            br = null;
-            connected = false;
-            JavaNetworking.gameStarted = false;
-            JavaNetworking.reset();
+        try
+        {
+            if (clientSocket != null)
+                clientSocket.close();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        clientSocket = null;
+        pw = null;
+        br = null;
+        connected = false;
+        JavaNetworking.gameStarted = false;
+        JavaNetworking.reset();
     }
-        
-//jy added for multiple variables.         
-    public static void sendGuess(int val1,int val2,int val3,int val4)
+    
+    
+//jy added for multiple variables.     
+    public static void sendGuess(int val1,int val2,int val3, int val4)
     {
         if (connected)
         {
-//jy added for multiple variables.                    
-            out.println(val1 + ":" + val2 + ":" + val3 + ":" + val4);
-            out.flush();
+//jy added for multiple variables.                   
+            System.out.println("sendPieceMove");
+            pw.println(val1 + ":" + val2 + ":" + val3 + ":" + val4);
+            pw.flush(); 
             JavaNetworking.myTurn = false;
-        }        
+        }            
     }
+
 
     public static void sendDisconnect()
     {
         if (connected)
-            out.println("esc");
+            pw.println("esc");
     }
-
 
     private static void receiveGuess()
     {
-        System.out.println("called");
-        new Thread(new Runnable() {
+        
+        new Thread(new Runnable()
+        {
             @Override
             public void run()
             {
                 String inputLine;
+
                 try
                 {
                     while ((inputLine = br.readLine()) != null)
@@ -98,16 +98,16 @@ public class ClientHandler
                                 disconnect();
                                 return;
                             }
-//jy added for multiple variables.                        
                             // row:col
+//jy added for multiple variables.                 
                             int post1 = Integer.parseInt(inputLine.split(":")[0]);
-                            int post2 = Integer.parseInt(inputLine.split(":")[1]);
-                            int post3 = Integer.parseInt(inputLine.split(":")[2]);
-                            int post4 = Integer.parseInt(inputLine.split(":")[3]);
-                            JavaNetworking.serverRow=post1;
-                            JavaNetworking.serverCol=post2;
-                            JavaNetworking.serverState=post3;
-                            JavaNetworking.serverWord=post4;
+                            int post2 = Integer.parseInt(inputLine.split(":")[1]);                            
+                            int post3 = Integer.parseInt(inputLine.split(":")[2]);            
+                            int post4 = Integer.parseInt(inputLine.split(":")[3]);            
+                            JavaNetworking.clientRow=post1;
+                            JavaNetworking.clientCol=post2;
+                            JavaNetworking.clientState=post3;
+                            JavaNetworking.clientWord=post4;
 
                             JavaNetworking.myTurn = true;
                         }
@@ -121,10 +121,15 @@ public class ClientHandler
                         }
                     }
                 }
-                catch (IOException e)
+                catch (SocketException e)
                 {
                     disconnect();
                 }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
             }
         }).start();
     }
@@ -134,5 +139,3 @@ public class ClientHandler
         return connected;
     }
 }
-
- 
