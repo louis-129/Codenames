@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+
 public class ClientHandler
 {
     public static boolean connected = false;
@@ -34,7 +35,7 @@ public class ClientHandler
 //        serverOut = new PrintWriter(server.getOutputStream(), true);
 //        serverIn = new BufferedReader(new InputStreamReader(server.getInputStream()));
         connected = true;
-        receivePieceMove();
+        receiveGuess();
     }
 
     public static void disconnect()
@@ -60,13 +61,13 @@ public class ClientHandler
     }
         
 //jy added for multiple variables.         
-    public static void sendPieceMove(int val1,int val2, int val3)
+    public static void sendGuess(int val1,int val2,int val3,int val4)
     {
         if (connected)
         {
 //jy added for multiple variables.                    
-            out.println(val1 + ":" + val2 + ":" + val3);
-            out.flush(); 
+            out.println(val1 + ":" + val2 + ":" + val3 + ":" + val4);
+            out.flush();
             JavaNetworking.myTurn = false;
         }        
     }
@@ -78,8 +79,9 @@ public class ClientHandler
     }
 
 
-    private static void receivePieceMove()
+    private static void receiveGuess()
     {
+        System.out.println("called");
         new Thread(new Runnable() {
             @Override
             public void run()
@@ -101,9 +103,12 @@ public class ClientHandler
                             int post1 = Integer.parseInt(inputLine.split(":")[0]);
                             int post2 = Integer.parseInt(inputLine.split(":")[1]);
                             int post3 = Integer.parseInt(inputLine.split(":")[2]);
-                            JavaNetworking.serverX=post1;
-                            JavaNetworking.serverY=post2;
-                            JavaNetworking.serverScore=post3;
+                            int post4 = Integer.parseInt(inputLine.split(":")[3]);
+                            JavaNetworking.serverRow=post1;
+                            JavaNetworking.serverCol=post2;
+                            JavaNetworking.serverState=post3;
+                            JavaNetworking.serverWord=post4;
+
                             JavaNetworking.myTurn = true;
                         }
                         catch (NumberFormatException e)
