@@ -127,6 +127,9 @@ public class GameWindow implements ActionListener {
         
         if(e.getSource()==play){
             System.out.println("IP ADDRESS IS " + ip.getText());
+             MainWindow frame = new MainWindow();
+             frame.main();
+             gameWindow.dispose();
         }
         else if(e.getSource()==back){
             GameStart window = new GameStart();
