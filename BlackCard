@@ -1,0 +1,50 @@
+package codenameswindow;
+import java.awt.*;
+
+import java.awt.Color;
+
+public class BlackCard extends Cards{
+    public static int numBlack = 1;
+    public static final Color BlackColor = Color.BLACK;
+    
+    BlackCard(Color _color){
+       super( _color); 
+    }
+    BlackCard(Color _color, String _word){
+        super(_color,_word);
+    }
+    BlackCard(){
+        color = BlackColor;
+        
+    }
+  
+   public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
+        g.setColor(color);
+        g.fillRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+        g.setColor(Color.GRAY);
+        g.drawRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+        
+        g.setColor(Color.white);
+        g.setFont (new Font ("Arial",Font.PLAIN, 50));
+        g.drawString(""+word,Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
+    }
+    
+    Color getColor(Color _color)
+    {
+    _color= color;
+    return (_color);
+    }
+    public void ChangeColor(){
+        color = BlackColor;
+        
+    }
+     public String getType() {
+        return ("DeathCard ");
+    }
+     public String getWord(){
+        return(word);
+    }
+     public void ChangeWord(String _word){
+        word = _word;
+    }
+}
