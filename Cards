@@ -1,0 +1,74 @@
+package codenameswindow ;
+import java.util.ArrayList;
+import java.awt.*;
+public abstract class Cards {
+public Color color;
+public String word;
+static public int num;  
+public static String[] words = {"Africa", "Ambulance", "Band", "Car", "Europe", "Circle",
+    "Paper", "Parachute", "Park","Dog","Foot","Fish","Fly","Hotel","Ice Cream", "Mexico",
+    "Mine", "Missile","Pyramid", "Queen", "Scientist","Sock", "Turkey","Vet","Water", "Vacuum", "Zebra"
+,"Ball", "Crown", "Dice","France", "India", "London" };
+
+public static ArrayList<String> wordList = new ArrayList<String>();
+public static ArrayList<String> wordBank = new ArrayList<String>();
+
+
+  public static int count = 0;
+    Cards(Color _color)
+    {
+      
+     _color=color;
+     word = "";
+//     word = words[(int)(Math.random()*words.length)];
+
+//        word = wordList.get(num);
+//        wordList.remove(num);
+   
+    }
+    Cards(Color _color, String _word){
+        color = _color;
+        word = _word;
+        
+       
+    }
+    Cards(){
+        
+        word = "";
+
+    
+        }
+    
+    
+     public String getType() {
+        return ("Card");
+    }
+    public void ChangeWord(String _word){
+        word = _word;
+    }
+    abstract public String getWord();
+    abstract public void ChangeColor();
+        
+    abstract public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta);
+    
+    
+    public static void SortWord(){
+        for(int i =0; i<words.length; i++)
+        {
+           
+           wordList.add(words[i]);
+          
+           
+        }   
+        for(int i =0; i<25; i++)
+        {
+           int ram = (int)(Math.random() * wordList.size() );
+           wordBank.add(wordList.get(ram));
+            wordList.remove(ram);
+//           System.out.println(wordBank.get(i));
+
+        }
+//        System.out.println("/////////////////////////////////////////////");
+    }
+    
+    }    
