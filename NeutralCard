@@ -1,0 +1,54 @@
+package codenameswindow;
+import java.awt.*;
+
+import java.awt.Color;
+
+public class NeutralCard extends Cards{
+    public static int numNeutral = 7;
+    
+    public final static Color NeutralColor =  new Color(215,200,176);
+    
+    NeutralCard(Color _color){
+       super( _color); 
+       
+       
+    }
+    NeutralCard(Color _color, String _word){
+        super(_color,_word);
+    }
+    NeutralCard(){
+        color = NeutralColor;
+    }
+  
+   public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
+       
+        g.setColor(color);
+        g.fillRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+       
+        g.setColor(Color.GRAY);
+        g.drawRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+//        
+        g.setColor(Color.black);
+        g.setFont (new Font ("Arial",Font.PLAIN, 50));
+        g.drawString(""+word,Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
+    }
+    
+    Color getColor(Color _color)
+    {
+    _color= color;
+    return (_color);
+    }
+    public void ChangeColor( ){
+        color = NeutralColor;
+        
+    }
+     public String getType() {
+        return ("NeutralCard ");
+    }
+    public String getWord(){
+        return(word);
+    }
+    public void ChangeWord(String _word){
+        word = _word;
+    }
+}
