@@ -1,0 +1,91 @@
+
+package codenameswindow;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+
+
+public class Rules implements ActionListener {
+
+JFrame Rules = new JFrame();
+JLabel title = new JLabel();
+JLabel text = new JLabel();
+JButton back = new JButton("BACK");
+
+
+    public Rules(){
+//        Rules = new CodeNamesWindow();
+        Rules.setSize(1920,1080);
+        Rules.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Rules.setVisible(true);
+        Rules.add(back);
+        Rules.add(title);
+        Rules.add(text);
+        
+        
+        
+        
+        
+        title.setText("HOW TO PLAY");
+        title.setVisible(true);
+        title.setSize(700, 300);
+        title.setFont(new Font("MV Boli",Font.BOLD,75));
+        title.setHorizontalTextPosition(JLabel.CENTER);
+        title.setVerticalTextPosition(JLabel.CENTER);
+        title.setVerticalAlignment(JLabel.CENTER);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setBackground(Color.black);
+        title.setOpaque(true);      // MAKES VISIBLE
+        title.setForeground(Color.blue);//TEXT COLOR
+        
+        
+        text.setText("Two teams compete by each having a \"spymaster\" "
+                + "give one-word clues that can point to multiple words on "
+                + "the board. The other players on the team attempt to guess "
+                + "their team's words while "
+                + "avoiding the words of the other team.");
+        text.setVisible(true);
+        text.setSize(500, 500);
+        text.setBounds(500,500,500,500);
+        text.setFont(new Font("MV Boli",Font.BOLD,20));
+//        text.setHorizontalTextPosition(JLabel.CENTER);
+//        text.setVerticalTextPosition(JLabel.CENTER);
+//        text.setVerticalAlignment(JLabel.BOTTOM);
+//        text.setHorizontalAlignment(JLabel.CENTER);
+        text.setBackground(Color.black);
+        text.setOpaque(true);      // MAKES VISIBLE
+        text.setForeground(Color.white);//TEXT COLOR
+        
+        back.setBounds(15,35,125,50);
+        back.setVisible(true);
+        back.setFocusable(false);
+        back.addActionListener(this);
+        back.setBackground(Color.white);
+        back.setText("BACK");
+        back.setFont(new Font("MV Boli",Font.BOLD,25));
+        
+        
+        
+        
+        
+    }
+    public void actionPerformed(ActionEvent e) {
+       
+        if(e.getSource()==back){
+            GameStart window = new GameStart();
+            Rules.dispose();
+        }
+        
+        
+        
+       
+            
+    }
+}
+
