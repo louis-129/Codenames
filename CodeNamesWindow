@@ -1,0 +1,16 @@
+
+package codenameswindow;
+
+
+public class CodeNamesWindow {
+
+    
+    public static void main(String[] args) {
+        
+        
+        GameStart window = new GameStart();
+       
+        
+    }
+    
+}
