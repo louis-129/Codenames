@@ -1,4 +1,4 @@
-package codenames;
+package codenameswindow;
 
 import java.io.*; 
 import java.awt.*;
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 class Window {
     
-    static final int WINDOW_WIDTH = 800;
-    static final int WINDOW_HEIGHT = 600;
+    static final int WINDOW_WIDTH = 1920;
+    static final int WINDOW_HEIGHT = 1080;
     static final int XBORDER = 150;
     static final int YBORDER = 150;
     static final int WINDOW_BORDER = 25;
@@ -46,4 +46,3 @@ class Window {
 
 
     
-
