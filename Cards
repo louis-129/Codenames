@@ -47,7 +47,9 @@ public static ArrayList<String> wordBank = new ArrayList<String>();
         word = _word;
     }
     abstract public String getWord();
+    abstract public Color getColor();
     abstract public void ChangeColor();
+    abstract public void ChangeColor(Color _color);
         
     abstract public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta);
     
