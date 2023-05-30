@@ -338,11 +338,12 @@ public class MainWindow extends JFrame implements Runnable {
               g.drawString("GUESSER 2 Score = " + CodeNamesWindow.score2, 1400, 65);
                g.setFont (new Font ("Arial",Font.PLAIN, 50));
             g.drawString("For: " + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+            g.drawString("CLUE: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
             if(CodeNamesWindow.isRedTurn)
                 g.drawString("RED GUESSERS'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
             else
                 g.drawString("BLUE GUESSERS'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
-            
+ 
         }
         
         
@@ -372,7 +373,7 @@ public class MainWindow extends JFrame implements Runnable {
         
         Board.SpyReset();
         Board.Words();
-        Guesser.Reset();
+      
 
 //        if(Spy)
 //            Board.SpyReset();
