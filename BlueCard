@@ -28,14 +28,17 @@ public class BlueCard extends Cards{
         g.drawString(""+word,Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
     }
     
-    Color getColor(Color _color)
+    public Color getColor()
     {
-    _color= color;
-    return (_color);
+    
+    return (BlueColor);
     }
     public void ChangeColor( ){
         color = BlueColor;
         
+    }
+    public void ChangeColor(Color _color){
+        color = _color;
     }
      public String getType() {
         return ("BlueCard ");
