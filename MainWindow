@@ -44,14 +44,74 @@ public class MainWindow extends JFrame implements Runnable {
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
 
-                if (e.BUTTON1 == e.getButton() && CodeNamesWindow.Guesser1 ) {
-                    if(CodeNamesWindow.GuessesForGusser1>0){
-                    Color send=Board.SelectColor(e.getX(), e.getY());
-                    Board2.SelectCard(e.getX(),e.getY(),send);
-                    CodeNamesWindow.GuessesForGusser1--;
+                if (e.BUTTON1 == e.getButton() && CodeNamesWindow.guessingStage ) {
+                  
+                   if(CodeNamesWindow.guesses>0)
+                   {
+                       Color test= Board.SelectColor(e.getX(), e.getY());
+                       if(Board.SelectColor(e.getX(), e.getY())==Color.BLACK){
+                        CodeNamesWindow.gameOver=true;
+                        System.out.println("dead");
                     }
-                    else
-                     return;
+                       if(CodeNamesWindow.isRedTurn)
+                       {
+                            if(Board.SelectColor(e.getX(), e.getY())==Color.RED){
+                                CodeNamesWindow.score1--;
+                                
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Color.BLUE)
+                            {
+                                CodeNamesWindow.score2--;
+                                CodeNamesWindow.guesses=0;
+                                 Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Board.getTan())
+                            {
+                                 CodeNamesWindow.guesses=0;
+                                  Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                               
+                       }
+                       if(CodeNamesWindow.isBlueTurn)
+                       {
+                            if(Board.SelectColor(e.getX(), e.getY())==Color.RED){
+                                CodeNamesWindow.score1--;
+                                CodeNamesWindow.guesses=0;
+                                 Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Color.BLUE)
+                            {
+                                CodeNamesWindow.score2--;
+                               
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Board.getTan())
+                            {
+                                 CodeNamesWindow.guesses=0;
+                                  Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                               
+                       }
+                       Board2.SelectCard(e.getX(), e.getY(),test);
+                       CodeNamesWindow.guesses--;
+                   }
+                   else
+                   {
+                       if(CodeNamesWindow.isRedTurn)
+                       {
+                           CodeNamesWindow.isRedTurn=false;
+                           CodeNamesWindow.isBlueTurn=true;
+                       }
+                       else if(CodeNamesWindow.isBlueTurn)
+                       {
+                           CodeNamesWindow.isBlueTurn=false;
+                           CodeNamesWindow.isRedTurn=true;
+                       }
+                       CodeNamesWindow.guessingStage=false;
+                       clue="";
+                       numClue="";
+                       
+                   }
+                   
                 }
 
                 if (e.BUTTON3 == e.getButton()) {
@@ -165,6 +225,9 @@ public class MainWindow extends JFrame implements Runnable {
                             numClue+="0";
                         else if (e.getKeyCode() == KeyEvent.VK_PERIOD)
                             clue += ".";
+                        else if(e.getKeyCode()==KeyEvent.VK_DELETE){
+                            numClue= numClue.substring(0, numClue.length()-1);
+                        }
                         else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
                             if(clue.length()<=0)
                                 return;
@@ -172,10 +235,19 @@ public class MainWindow extends JFrame implements Runnable {
                         
                         }
                         else if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                          Board2.GuessReset();
-                          Board2.Words();
-                          CodeNamesWindow.Guesser1=true;
-                          CodeNamesWindow.GuessesForGusser1=Integer.parseInt(numClue);
+                            if(numClue.length()<1||clue.length()<1)
+                              return;
+                            CodeNamesWindow.guesses=Integer.parseInt(numClue);
+                          CodeNamesWindow.guessingStage=true;
+                          if(!CodeNamesWindow.first)
+                          {
+                             Board2.GuessReset();
+                             Board2.Words();
+                             CodeNamesWindow.first=true;
+                          }
+                          
+                          
+
                            
                         }
                 repaint();
@@ -228,33 +300,51 @@ public class MainWindow extends JFrame implements Runnable {
 //        
         
         
-        if(CodeNamesWindow.Guesser1)
+        if(CodeNamesWindow.guessingStage)
             Board2.Draw(g);
         else
             Board.Draw(g);
         
               
-       
-        
-        if(!CodeNamesWindow.Guesser1)
+      
+        if (CodeNamesWindow.gameOver)
         {
-        g.setColor(Color.white);
-        g.setFont (new Font ("Arial",Font.PLAIN, 50));
-        g.drawString("ENTER A CLUE: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
-        
-        
-        g.setFont (new Font ("Arial",Font.PLAIN, 50));
-        g.drawString("For" + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+            g.setColor(Color.MAGENTA);
+            g.setFont (new Font ("Arial",Font.PLAIN, 200));
+            g.drawString("Game Over",400,400);
         }
-        else
+        
+        if(!CodeNamesWindow.guessingStage)
         {
+            
             g.setColor(Color.white);
             g.setFont (new Font ("Arial",Font.PLAIN, 50));
-            g.drawString("Your Clue: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
-            
+            g.drawString("ENTER A CLUE: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
+
+
             g.setFont (new Font ("Arial",Font.PLAIN, 50));
-            g.drawString("For" + CodeNamesWindow.GuessesForGusser1, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+            g.drawString("For: " + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+             g.setFont (new Font ("Arial",Font.PLAIN, 50));
+             if(CodeNamesWindow.isRedTurn)
+                g.drawString("RED SPYMASTER'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);
+             else
+                g.drawString("BLUE SPYMASTER'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
         }
+        else if(CodeNamesWindow.guessingStage)
+        {
+            g.setColor(Color.white);
+            g.setFont (new Font ("Arial",Font.PLAIN, 20));
+              g.drawString("GUESSER 1 Score = " + CodeNamesWindow.score1, 30, 65);
+              g.drawString("GUESSER 2 Score = " + CodeNamesWindow.score2, 1400, 65);
+               g.setFont (new Font ("Arial",Font.PLAIN, 50));
+            g.drawString("For: " + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+            if(CodeNamesWindow.isRedTurn)
+                g.drawString("RED GUESSERS'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
+            else
+                g.drawString("BLUE GUESSERS'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
+            
+        }
+        
         
         
         gOld.drawImage(image, 0, 0, null);
@@ -282,6 +372,7 @@ public class MainWindow extends JFrame implements Runnable {
         
         Board.SpyReset();
         Board.Words();
+        Guesser.Reset();
 
 //        if(Spy)
 //            Board.SpyReset();
