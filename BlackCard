@@ -55,4 +55,3 @@ public class BlackCard extends Cards{
         word = _word;
     }
 }
-
