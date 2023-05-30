@@ -44,12 +44,14 @@ public class MainWindow extends JFrame implements Runnable {
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
 
-                if (e.BUTTON1 == e.getButton() ) {
-                    
-                    
-                    Board.SelectCard(e.getX(),e.getY());
-                    int xpos = e.getX();
-                    int ypos = e.getY();
+                if (e.BUTTON1 == e.getButton() && CodeNamesWindow.Guesser1 ) {
+                    if(CodeNamesWindow.GuessesForGusser1>0){
+                    Color send=Board.SelectColor(e.getX(), e.getY());
+                    Board2.SelectCard(e.getX(),e.getY(),send);
+                    CodeNamesWindow.GuessesForGusser1--;
+                    }
+                    else
+                     return;
                 }
 
                 if (e.BUTTON3 == e.getButton()) {
@@ -84,8 +86,8 @@ public class MainWindow extends JFrame implements Runnable {
                 } else if (e.VK_LEFT == e.getKeyCode()) {
                 } else if (e.VK_RIGHT == e.getKeyCode()) {
                 } else if (e.VK_SPACE == e.getKeyCode()) {
-                    Board.GuessReset();
-                    Board.Words();
+                    Board2.Draw(g);
+                    
                 }
                 
                 
@@ -170,7 +172,10 @@ public class MainWindow extends JFrame implements Runnable {
                         
                         }
                         else if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                          
+                          Board2.GuessReset();
+                          Board2.Words();
+                          CodeNamesWindow.Guesser1=true;
+                          CodeNamesWindow.GuessesForGusser1=Integer.parseInt(numClue);
                            
                         }
                 repaint();
@@ -223,19 +228,33 @@ public class MainWindow extends JFrame implements Runnable {
 //        
         
         
-        
+        if(CodeNamesWindow.Guesser1)
+            Board2.Draw(g);
+        else
+            Board.Draw(g);
         
               
-        Board.Draw(g);
+       
         
+        if(!CodeNamesWindow.Guesser1)
+        {
         g.setColor(Color.white);
         g.setFont (new Font ("Arial",Font.PLAIN, 50));
-        g.drawString("ENTER A CLUE " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
+        g.drawString("ENTER A CLUE: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
         
         
         g.setFont (new Font ("Arial",Font.PLAIN, 50));
         g.drawString("For" + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
-        
+        }
+        else
+        {
+            g.setColor(Color.white);
+            g.setFont (new Font ("Arial",Font.PLAIN, 50));
+            g.drawString("Your Clue: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
+            
+            g.setFont (new Font ("Arial",Font.PLAIN, 50));
+            g.drawString("For" + CodeNamesWindow.GuessesForGusser1, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+        }
         
         
         gOld.drawImage(image, 0, 0, null);
@@ -261,7 +280,9 @@ public class MainWindow extends JFrame implements Runnable {
     public void reset() {
      
         
-        Board.Reset();
+        Board.SpyReset();
+        Board.Words();
+
 //        if(Spy)
 //            Board.SpyReset();
 //        else
@@ -277,11 +298,13 @@ public class MainWindow extends JFrame implements Runnable {
             if (Window.xsize != getSize().width || Window.ysize != getSize().height) {
                 Window.xsize = getSize().width;
                 Window.ysize = getSize().height;
+               
             }
 
             reset();
 
         }
+        
 
         
     }
