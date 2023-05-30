@@ -273,7 +273,7 @@ public class Board {
         }
     }
     
-    public static void SelectCard(int xpixel,int ypixel) { 
+    public static void SelectCard(int xpixel,int ypixel, Color test) { 
         int ydelta = Window.getHeight2()/NUM_ROWS;
         int xdelta = Window.getWidth2()/NUM_COLUMNS;
         int xpixelOffset = xpixel - Window.getX(0);
@@ -288,20 +288,15 @@ public class Board {
         
         if(board[row][col]!=null)
             board[row][col].ChangeColor();
-if(board[row][col]!=null&& board[row][col].color==Guesser.getGuesser1().getColor()){
-             Guesser.getGuesser1().addScore();
-         }
-         else if(board[row][col]!=null&& board[row][col].color==Guesser.getGuesser2().getColor()){
-             Guesser.getGuesser2().addScore();
-         }
-          else if(board[row][col]!=null&& board[row][col].color== Color.BLACK){
-              CodeNames.gameOver =true;
-          } 
-            
+        else
+            return;
+        
+
         
     }
-        
-    
+    public static Color getTan(){
+        return(tan);
+    }
     
       public static Color SelectColor(int xpixel,int ypixel) { 
         int ydelta = Window.getHeight2()/NUM_ROWS;
