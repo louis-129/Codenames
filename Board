@@ -288,9 +288,20 @@ public class Board {
         
         if(board[row][col]!=null)
             board[row][col].ChangeColor();
-
+if(board[row][col]!=null&& board[row][col].color==Guesser.getGuesser1().getColor()){
+             Guesser.getGuesser1().addScore();
+         }
+         else if(board[row][col]!=null&& board[row][col].color==Guesser.getGuesser2().getColor()){
+             Guesser.getGuesser2().addScore();
+         }
+          else if(board[row][col]!=null&& board[row][col].color== Color.BLACK){
+              CodeNames.gameOver =true;
+          } 
+            
         
     }
+        
+    
     
       public static Color SelectColor(int xpixel,int ypixel) { 
         int ydelta = Window.getHeight2()/NUM_ROWS;
