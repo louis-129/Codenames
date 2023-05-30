@@ -3,9 +3,15 @@ package codenameswindow;
 
 public class CodeNamesWindow {
 
-    public static boolean SpyMaster1 =false;
-    public static boolean Guesser1 =false;
-    public static int GuessesForGusser1=0;
+    public static boolean first =false;
+    public static boolean isRedTurn =true;
+     public static boolean isBlueTurn =false;
+     public static boolean guessingStage=false;
+     public static int guesses=0;
+     
+     public static int score1=8;
+     public static int score2=8;
+    public static boolean gameOver;
     public static void main(String[] args) {
         
         
@@ -16,4 +22,3 @@ public class CodeNamesWindow {
        
     
 }
-
