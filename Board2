@@ -220,6 +220,11 @@ public class Board2 {
         if(board[row][col]!=null)
             board[row][col].ChangeColor(color);
          System.out.println("Called Select");
+         
+        if(CodeNamesWindow.isRedTurn)
+        {
+            
+        }
         
     }
      
