@@ -1,0 +1,52 @@
+package codenameswindow;
+import java.awt.*;
+
+import java.awt.Color;
+
+public class BlueCard extends Cards{
+    public static int numBlue = 7;
+     public static final Color BlueColor = Color.BLUE;
+    BlueCard(Color _color){
+       super( _color); 
+    }
+    BlueCard(Color _color, String _word){
+        super(_color,_word);
+    }
+    BlueCard(){
+        color = BlueColor;
+        
+    }
+  
+   public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
+        g.setColor(color);
+        g.fillRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+        g.setColor(Color.GRAY);
+        g.drawRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+        
+        g.setColor(Color.black);
+        g.setFont (new Font ("Arial",Font.PLAIN, 50));
+        g.drawString(""+word,Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
+    }
+    
+    public Color getColor()
+    {
+    
+    return (BlueColor);
+    }
+    public void ChangeColor( ){
+        color = BlueColor;
+        
+    }
+    public void ChangeColor(Color _color){
+        color = _color;
+    }
+     public String getType() {
+        return ("BlueCard ");
+    }
+     public String getWord(){
+        return(word);
+    }
+     public void ChangeWord(String _word){
+        word = _word;
+    }
+}
