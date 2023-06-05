@@ -1,0 +1,52 @@
+package codenameswindow;
+import java.awt.*;
+
+import java.awt.Color;
+
+public class RedCard extends Cards{
+    public static int numRed = 7;
+    public static final Color RedColor = Color.RED;
+    RedCard(Color _color){
+       super( _color); 
+    }
+    RedCard(Color _color, String _word){
+        super(_color,_word);
+    }
+    RedCard(){
+        color = RedColor;
+    }
+  
+   public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta){
+        g.setColor(color);
+        g.fillRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+        
+        g.setColor(Color.GRAY);
+        g.drawRect(Window.getX(column*xdelta),Window.getY(row*ydelta),xdelta,ydelta);
+        
+        g.setColor(Color.black);
+        g.setFont (new Font ("Arial",Font.PLAIN, 50));
+        g.drawString(""+word,Window.getX(column*xdelta)+20,Window.getY(row*ydelta)+48);
+    }
+    
+    public Color getColor()
+    {
+    
+    return (RedColor);
+    }
+    public void ChangeColor( ){
+        color = RedColor;
+        
+    }
+    public void ChangeColor(Color _color){
+        color = _color;
+    }
+     public String getType() {
+        return ("RedCard ");
+    }
+     public String getWord(){
+        return(word);
+    }
+     public void ChangeWord(String _word){
+        word = _word;
+    }
+}
