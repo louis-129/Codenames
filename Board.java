@@ -51,6 +51,7 @@ public class Board {
                         int col = (int)(Math.random()*NUM_COLUMNS);
                         if(board[row][col]==null){
                             board[row][col] = new RedCard();
+                              CodeNamesWindow.score1++;
                             RedCard.numRed--;
 
                         }   
@@ -62,7 +63,7 @@ public class Board {
                                  col = (int)(Math.random()*NUM_COLUMNS);
                             }
                              board[row][col] = new RedCard();    
-
+                               CodeNamesWindow.score1++;
                             RedCard.numRed--;
                         }
                         
@@ -73,6 +74,7 @@ public class Board {
                         if(board[row][col]==null){
                             board[row][col]= new BlueCard();
                              BlueCard.numBlue--;
+                               CodeNamesWindow.score2++;
                             }
                         else{
                             while(board[row][col]!=null){
@@ -80,6 +82,7 @@ public class Board {
                                  col = (int)(Math.random()*NUM_COLUMNS);
                             }
                              board[row][col]= new BlueCard();
+                             CodeNamesWindow.score2++;
                              BlueCard.numBlue--;
                         }
                        
@@ -135,9 +138,14 @@ public class Board {
     public static void GuessReset() {
 //clear the board.
 
-        
-        
+        for (int zrow=0;zrow<NUM_ROWS;zrow++){
+            for (int zcol=0;zcol<NUM_COLUMNS;zcol++){
+                board[zrow][zcol]= new NeutralCard(tan);
+            }
+        }
     
+        
+    System.out.println("guess");
         for (int zrow=0;zrow<NUM_ROWS;zrow++){
             for (int zcol=0;zcol<NUM_COLUMNS;zcol++){
                 
@@ -171,6 +179,7 @@ public class Board {
                         int col = (int)(Math.random()*NUM_COLUMNS);
                         if(board[row][col]==null){
                             board[row][col] = new RedCard(tan);
+                            CodeNamesWindow.score1++;
                             RedCard.numRed--;
                         }   
                         else
@@ -181,7 +190,7 @@ public class Board {
                                  col = (int)(Math.random()*NUM_COLUMNS);
                             }
                              board[row][col] = new RedCard(tan);    
-
+                               CodeNamesWindow.score1++;
                             RedCard.numRed--;
                         }
                         
@@ -192,6 +201,7 @@ public class Board {
                         if(board[row][col]==null){
                             board[row][col]= new BlueCard(tan);
                             BlueCard.numBlue--;
+                            CodeNamesWindow.score2++;
                         }
                         else{
                             while(board[row][col]!=null){
@@ -199,6 +209,7 @@ public class Board {
                                  col = (int)(Math.random()*NUM_COLUMNS);
                             }
                              board[row][col]= new BlueCard(tan);
+                             CodeNamesWindow.score2++;
                              BlueCard.numBlue--;
                         }
                        
@@ -260,7 +271,7 @@ public class Board {
                     
             for(int j = 0; j<NUM_COLUMNS; j++){
                 
-                board[i][j].word= Cards.wordBank.get(count);
+                 board[i][j].word= Cards.wordBank.get(count);
                 count++;
             
                 
@@ -268,7 +279,7 @@ public class Board {
         }
     }
     
-    public static void SelectCard(int xpixel,int ypixel) { 
+    public static void SelectCard(int xpixel,int ypixel, Color test) { 
         int ydelta = Window.getHeight2()/NUM_ROWS;
         int xdelta = Window.getWidth2()/NUM_COLUMNS;
         int xpixelOffset = xpixel - Window.getX(0);
@@ -283,7 +294,32 @@ public class Board {
         
         if(board[row][col]!=null)
             board[row][col].ChangeColor();
+        else
+            return;
+        
 
+        
+    }
+    public static Color getTan(){
+        return(tan);
+    }
+    
+      public static Color SelectColor(int xpixel,int ypixel) { 
+        int ydelta = Window.getHeight2()/NUM_ROWS;
+        int xdelta = Window.getWidth2()/NUM_COLUMNS;
+        int xpixelOffset = xpixel - Window.getX(0);
+        int ypixelOffset = ypixel - Window.getY(0);
+        
+        if (xpixelOffset < 0 || xpixelOffset > Window.getWidth2() ||
+        ypixelOffset < 0 || ypixelOffset > Window.getHeight2())
+            return(tan);
+        
+        int row = ypixelOffset/ydelta;
+        int col = xpixelOffset/xdelta;
+        
+        if(board[row][col]!=null)
+            board[row][col].ChangeColor();
+        return(board[row][col].getColor());
         
     }
     
