@@ -1,0 +1,141 @@
+
+package codenameswindow;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+
+
+public class Rules implements ActionListener {
+
+JFrame Rules = new JFrame();
+JLabel title = new JLabel();
+JLabel text = new JLabel();
+JButton back = new JButton("BACK");
+JButton instructions = new JButton("Instructions");
+
+        File file = new File("instructions.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip(); 
+         
+
+    public Rules() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
+        
+              
+//        Rules = new CodeNamesWindow();
+        clip.open(audioStream);
+        Rules.setSize(1920,1080);
+        Rules.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Rules.setVisible(true);
+        Rules.setResizable(true);
+  
+        Rules.add(back);
+        Rules.add(instructions);
+        Rules.add(title);
+        Rules.add(text);
+        
+        
+        
+        
+        
+        
+        title.setText("HOW TO PLAY");
+        title.setVisible(true);
+         title.setSize(1800, 500);
+        title.setFont(new Font("MV Boli",Font.BOLD,80));
+        title.setHorizontalTextPosition(JLabel.CENTER);
+        title.setVerticalTextPosition(JLabel.TOP);
+        title.setVerticalAlignment(JLabel.TOP);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setBackground(Color.black);
+        title.setOpaque(true);      // MAKES VISIBLE
+        title.setForeground(Color.blue);//TEXT COLOR
+//        title.setBounds(750,400,1000,500);
+        
+        
+        
+        
+//        text.setText("Two teams compete by each having a \"spymaster\" "
+//                + "give one-word clues that can point to multiple words on "
+//                + "the board. The other players on the team attempt to guess "
+//                + "their team's words while "
+//                + "avoiding the words of the other team.");
+//        text.setVisible(true);
+//        text.setSize(500, 500);
+//        text.setBounds(500,500,500,500);
+//        text.setFont(new Font("MV Boli",Font.BOLD,20));
+//        text.setHorizontalTextPosition(JLabel.CENTER);
+//        text.setVerticalTextPosition(JLabel.CENTER);
+//        text.setVerticalAlignment(JLabel.BOTTOM);
+//        text.setHorizontalAlignment(JLabel.CENTER);
+        text.setBackground(Color.black);
+        text.setOpaque(true);      // MAKES VISIBLE
+        text.setForeground(Color.white);//TEXT COLOR
+        
+        back.setBounds(15,35,125,50);
+        back.setVisible(true);
+        back.setFocusable(false);
+        back.addActionListener(this);
+        back.setBackground(Color.white);
+        back.setText("BACK");
+        back.setFont(new Font("MV Boli",Font.BOLD,25));
+        
+      ;
+        instructions.setBounds(650,450,500,100);
+        instructions.setVisible(true);
+        instructions.setFocusable(false);
+        instructions.addActionListener(this);
+        instructions.setBackground(Color.white);
+        instructions.setText("Instructions");
+        instructions.setFont(new Font("MV Boli",Font.BOLD,25));
+        
+        
+        
+        
+        
+        
+    }
+    public void actionPerformed(ActionEvent e) {
+       
+        if(e.getSource()==back){
+            clip.stop();
+            try {
+                GameStart window = new GameStart();
+            } catch (UnsupportedAudioFileException ex) {
+                Logger.getLogger(Rules.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(Rules.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Rules.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Rules.dispose();
+        }
+        else if(e.getSource()==instructions){
+            clip.start();
+        }
+        
+        
+        
+       
+            
+    }
+   
+}
+
