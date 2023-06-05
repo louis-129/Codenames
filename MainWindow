@@ -1,0 +1,608 @@
+package codenameswindow;
+
+import java.io.*; 
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.*;
+
+public class MainWindow extends JFrame implements Runnable {
+
+    boolean animateFirstTime = true;
+    Image image;
+    Graphics2D g;
+ 
+    String clue = "";
+    public static boolean Spy = true;
+    String numClue = "";
+    public static boolean blackSelected = false;
+    
+//     sound bgSound = null;  
+    
+  
+
+    public static void main() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        
+//        GameStart window = new GameStart();
+        
+        
+        MainWindow frame = new MainWindow();
+      
+        frame.setSize(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
+        File file = new File("discord.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+        
+       
+       
+        
+        
+            
+        
+       
+        
+        
+            
+        
+   
+     
+    }
+
+    public MainWindow() {
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+
+                 if (e.BUTTON1 == e.getButton() && CodeNamesWindow.guessingStage &&!CodeNamesWindow.winner) {
+                  
+                   if(CodeNamesWindow.guesses>0)
+                   {
+                       Color test= Board.SelectColor(e.getX(), e.getY());
+                       if(Board.SelectColor(e.getX(), e.getY())==Color.BLACK){
+                           try {
+                               audio();
+                           } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+                               Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                           }
+                        CodeNamesWindow.gameOver=true;
+                       
+                        System.out.println("dead");
+                    }
+                       if(CodeNamesWindow.isRedTurn)
+                       {
+                            if(Board.SelectColor(e.getX(), e.getY())==Color.RED){
+                                CodeNamesWindow.score1--;
+                                try {
+                                    correctAudio();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Color.BLUE)
+                            {   
+                                try {
+                                    incorrectAudio();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                CodeNamesWindow.score2--;
+                                CodeNamesWindow.guesses=0;
+                                 Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Board.getTan())
+                            {
+                                try {
+                                    incorrectAudio();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                 CodeNamesWindow.guesses=0;
+                                  Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Color.MAGENTA)
+                            {
+                                try {
+                                    correctAudio();
+                                } catch (UnsupportedAudioFileException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (LineUnavailableException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                 CodeNamesWindow.score1-=2;
+                                 CodeNamesWindow.guesses=0;
+                            }
+                               
+                       }
+                       if(CodeNamesWindow.isBlueTurn)
+                       {
+                            if(Board.SelectColor(e.getX(), e.getY())==Color.RED){
+                                try {
+                                    incorrectAudio();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                CodeNamesWindow.score1--;
+                                CodeNamesWindow.guesses=0;
+                                 Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Color.BLUE)
+                            {
+                                CodeNamesWindow.score2--;
+                                try {
+                                    correctAudio();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                               
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Board.getTan())
+                            {       
+                                try {
+                                    incorrectAudio();
+                                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                 CodeNamesWindow.guesses=0;
+                                  Board2.SelectCard(e.getX(), e.getY(),test);
+                            }
+                            else if (Board.SelectColor(e.getX(), e.getY())==Color.MAGENTA)
+                            {
+                                try {
+                                    correctAudio();
+                                } catch (UnsupportedAudioFileException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (LineUnavailableException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                 CodeNamesWindow.score2-=2;
+                                 CodeNamesWindow.guesses=0;
+                            }
+                               
+                       }
+                       Board2.SelectCard(e.getX(), e.getY(),test);
+                       CodeNamesWindow.guesses--;
+                   }
+                   else
+                   {
+                       if(CodeNamesWindow.isRedTurn)
+                       {
+                           CodeNamesWindow.isRedTurn=false;
+                           CodeNamesWindow.isBlueTurn=true;
+                       }
+                       else if(CodeNamesWindow.isBlueTurn)
+                       {
+                           CodeNamesWindow.isBlueTurn=false;
+                           CodeNamesWindow.isRedTurn=true;
+                       }
+                       CodeNamesWindow.guessingStage=false;
+                       clue="";
+                       numClue="";
+                       
+                   }
+                   
+                }
+
+                if (e.BUTTON3 == e.getButton()) {
+               
+                }
+                repaint();
+            }
+        });
+            
+
+    addMouseMotionListener(new MouseMotionAdapter() {
+      public void mouseDragged(MouseEvent e) {
+
+        repaint();
+      }
+    });
+
+    addMouseMotionListener(new MouseMotionAdapter() {
+      public void mouseMoved(MouseEvent e) {
+
+        repaint();
+      }
+    });
+
+        addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+                if (e.VK_UP == e.getKeyCode()) {
+                    Board.SpyReset();
+                    Board.Words();
+                } else if (e.VK_DOWN == e.getKeyCode()) {
+                } else if (e.VK_LEFT == e.getKeyCode()) {
+                } else if (e.VK_RIGHT == e.getKeyCode()) {
+                } else if (e.VK_SPACE == e.getKeyCode()) {
+                    Board2.Draw(g);
+                    
+                }
+                
+                
+                        if (e.getKeyCode() == KeyEvent.VK_Q)
+                            clue += "q";
+                        else if (e.getKeyCode() == KeyEvent.VK_W)
+                            clue += "w";
+                        else if (e.getKeyCode() == KeyEvent.VK_E)
+                            clue += "e";
+                        else if (e.getKeyCode() == KeyEvent.VK_R)
+                            clue += "r";
+                        else if (e.getKeyCode() == KeyEvent.VK_T)
+                            clue += "t";
+                        else if (e.getKeyCode() == KeyEvent.VK_Y)
+                            clue += "y";
+                        else if (e.getKeyCode() == KeyEvent.VK_U)
+                            clue += "u";
+                        else if (e.getKeyCode() == KeyEvent.VK_I)
+                            clue += "i";
+                        else if (e.getKeyCode() == KeyEvent.VK_O)
+                            clue += "o";
+                        else if (e.getKeyCode() == KeyEvent.VK_P)
+                            clue += "p";
+                        else if (e.getKeyCode() == KeyEvent.VK_A)
+                            clue += "a";
+                        else if (e.getKeyCode() == KeyEvent.VK_S)
+                            clue+="S";
+                        else if (e.getKeyCode() == KeyEvent.VK_D)
+                            clue += "d";
+                        else if (e.getKeyCode() == KeyEvent.VK_F)
+                            clue += "f";
+                        else if (e.getKeyCode() == KeyEvent.VK_G)
+                            clue += "g";
+                        else if (e.getKeyCode() == KeyEvent.VK_H)
+                            clue += "h";
+                        else if (e.getKeyCode() == KeyEvent.VK_J)
+                            clue += "j";
+                        else if (e.getKeyCode() == KeyEvent.VK_K)
+                            clue += "k";
+                        else if (e.getKeyCode() == KeyEvent.VK_L)
+                            clue += "l";
+                        else if (e.getKeyCode() == KeyEvent.VK_Z)
+                            clue += "z";
+                        else if (e.getKeyCode() == KeyEvent.VK_X)
+                            clue += "x";
+                        else if (e.getKeyCode() == KeyEvent.VK_C)
+                            clue += "c";
+                        else if (e.getKeyCode() == KeyEvent.VK_V)
+                            clue+="v";
+                        else if (e.getKeyCode() == KeyEvent.VK_B)
+                            clue += "b";
+                        else if (e.getKeyCode() == KeyEvent.VK_N)
+                            clue += "n";
+                        else if (e.getKeyCode() == KeyEvent.VK_M)
+                            clue += "m";
+                        else if (e.getKeyCode() == KeyEvent.VK_1)
+                            numClue += "1";
+                        else if (e.getKeyCode() == KeyEvent.VK_2)
+                            numClue += "2";
+                        else if (e.getKeyCode() == KeyEvent.VK_3)
+                            numClue += "3";
+                        else if (e.getKeyCode() == KeyEvent.VK_4)
+                            numClue += "4";
+                        else if (e.getKeyCode() == KeyEvent.VK_5)
+                            numClue += "5";
+                        else if (e.getKeyCode() == KeyEvent.VK_6)
+                            numClue += "6";
+                        else if (e.getKeyCode() == KeyEvent.VK_7)
+                            numClue += "7";
+                        else if (e.getKeyCode() == KeyEvent.VK_8)
+                            numClue+="8";
+                        else if (e.getKeyCode() == KeyEvent.VK_9)
+                            numClue += "9";
+                        else if (e.getKeyCode() == KeyEvent.VK_0)
+                            numClue+="0";
+                        else if (e.getKeyCode() == KeyEvent.VK_PERIOD)
+                            clue += ".";
+                        else if(e.getKeyCode()==KeyEvent.VK_DELETE){
+                            numClue= numClue.substring(0, numClue.length()-1);
+                        }
+                        else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                            if(clue.length()<=0)
+                                return;
+                             clue=clue.substring(0, clue.length()-1);
+                        
+                        }
+                        else if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                            if(numClue.length()<1||clue.length()<1)
+                              return;
+                            CodeNamesWindow.guesses=Integer.parseInt(numClue);
+                          CodeNamesWindow.guessingStage=true;
+                          if(!CodeNamesWindow.first)
+                          {
+                             Board2.GuessReset();
+                             Board2.Words();
+                             CodeNamesWindow.first=true;
+                          }
+                          
+                          
+
+                           
+                        }
+                repaint();
+            }
+        });
+        init();
+        start();
+    }
+    Thread relaxer;
+////////////////////////////////////////////////////////////////////////////
+    public void init() {
+        requestFocus();
+    }
+////////////////////////////////////////////////////////////////////////////
+    public void destroy() {
+    }
+////////////////////////////////////////////////////////////////////////////
+    public void paint(Graphics gOld) {
+    
+        if (image == null || Window.xsize != getSize().width || Window.ysize != getSize().height) {
+            Window.xsize = getSize().width;
+            Window.ysize = getSize().height;
+            image = createImage(Window.xsize, Window.ysize);
+            g = (Graphics2D) image.getGraphics();
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+        }
+//fill background
+        
+        
+        g.setColor(Color.black);
+        g.fillRect(0, 0, Window.xsize, Window.ysize);
+
+        int x[] = {Window.getX(0), Window.getX(Window.getWidth2()), Window.getX(Window.getWidth2()), Window.getX(0), Window.getX(0)};
+        int y[] = {Window.getY(0), Window.getY(0), Window.getY(Window.getHeight2()), Window.getY(Window.getHeight2()), Window.getY(0)};
+//fill border
+        g.setColor(Color.white);
+        g.fillPolygon(x, y, 4);
+// draw border
+        g.setColor(Color.red);
+        g.drawPolyline(x, y, 5);
+        
+        
+        
+        
+        if (animateFirstTime) {
+            gOld.drawImage(image, 0, 0, null);
+            return;
+        }
+//        
+        
+        
+        if(CodeNamesWindow.guessingStage)
+            Board2.Draw(g);
+        else
+            Board.Draw(g);
+        
+              
+      
+        if (CodeNamesWindow.gameOver)
+        {
+            g.setColor(Color.MAGENTA);
+            g.setFont (new Font ("Arial",Font.PLAIN, 200));
+            g.drawString("Game Over",400,400);
+        }
+        
+        if(!CodeNamesWindow.guessingStage)
+        {
+            
+            g.setColor(Color.white);
+            g.setFont (new Font ("Arial",Font.PLAIN, 50));
+            g.drawString("ENTER A CLUE: " + clue, (Window.getWidth2()/2)-400, Window.getHeight2()-600);
+
+
+            g.setFont (new Font ("Arial",Font.PLAIN, 50));
+            g.drawString("For: " + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+             g.setFont (new Font ("Arial",Font.PLAIN, 50));
+             if(CodeNamesWindow.isRedTurn)
+                g.drawString("RED SPYMASTER'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);
+             else
+                g.drawString("BLUE SPYMASTER'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
+        }
+        else if(CodeNamesWindow.guessingStage)
+        {
+            g.setColor(Color.white);
+            g.setFont (new Font ("Arial",Font.PLAIN, 20));
+            g.drawString("GUESSER 1 Score = " + CodeNamesWindow.score1, 30, 65);
+            g.drawString("GUESSER 2 Score = " + CodeNamesWindow.score2, 1400, 65);
+            g.setFont (new Font ("Arial",Font.PLAIN, 50));
+            g.drawString("Clue:" + clue, (Window.getWidth2()/2)-300, Window.getHeight2()-600);
+            g.drawString("For: " + numClue, (Window.getWidth2()/2)+300, Window.getHeight2()-600);
+            if(CodeNamesWindow.isRedTurn)
+                g.drawString("RED GUESSERS'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
+            else
+                g.drawString("BLUE GUESSERS'S TURN ", (Window.getWidth2()/2)-150, Window.getHeight2()+250);  
+            
+        }
+        
+        
+         
+         if(CodeNamesWindow.score2<=0)
+        {
+              g.setColor(Color.MAGENTA);
+            g.setFont (new Font ("Arial",Font.PLAIN, 200));
+            g.drawString("BLUE TEAM WINS",400,400);
+            CodeNamesWindow.winner=true;
+             
+        }
+        else if(CodeNamesWindow.score1<=0)
+        {
+               g.setColor(Color.MAGENTA);
+            g.setFont (new Font ("Arial",Font.PLAIN, 200));
+            g.drawString("RED TEAM WINS",400,400);
+             CodeNamesWindow.winner=true;
+             
+        }
+        
+        
+        
+        
+        
+        gOld.drawImage(image, 0, 0, null);
+          
+    }
+
+////////////////////////////////////////////////////////////////////////////
+// needed for     implement runnable
+    public void run() {
+        while (true) {
+            try {
+                animate();
+            } catch (UnsupportedAudioFileException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            repaint();
+            double seconds = .1;    //time that 1 frame takes.
+            int miliseconds = (int) (1000.0 * seconds);
+            try {
+                Thread.sleep(miliseconds);
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+    
+/////////////////////////////////////////////////////////////////////////
+    public void reset() {
+//     bgSound = new sound("theme.wav");   
+        
+        Board.SpyReset();
+        Board.Words();
+//        Guesser.Reset();
+
+//        if(Spy)
+//            Board.SpyReset();
+//        else
+//            Board.GuessReset();
+        
+  //      WinInfo.Reset();
+    }
+/////////////////////////////////////////////////////////////////////////
+    public void animate() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        
+        if (animateFirstTime) {
+            animateFirstTime = false;
+            if (Window.xsize != getSize().width || Window.ysize != getSize().height) {
+                Window.xsize = getSize().width;
+                Window.ysize = getSize().height;
+               
+            }
+
+            reset();
+
+        }
+        
+       
+      
+//        if (bgSound.donePlaying){       
+//            bgSound = new sound("theme.wav");
+//        }
+    }
+
+////////////////////////////////////////////////////////////////////////////
+    public void start() {
+        if (relaxer == null) {
+            relaxer = new Thread(this);
+            relaxer.start();
+        }
+    }
+////////////////////////////////////////////////////////////////////////////
+    public void stop() {
+        if (relaxer.isAlive()) {
+            relaxer.stop();
+        }
+        relaxer = null;
+    }
+
+    public static void audio() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        
+        File file = new File("yournotthatguy.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+      
+    }
+    public static void correctAudio() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
+        File file = new File("correct.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+    }
+    public static void incorrectAudio() throws UnsupportedAudioFileException, LineUnavailableException, IOException{
+        File file = new File("wrong.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+    }
+}
+//class sound implements Runnable {
+//    Thread myThread;
+//    File soundFile;
+//    public boolean donePlaying = false;
+//    public boolean stopPlaying = false;
+//    sound(String _name)
+//    {
+//        soundFile = new File(_name);
+//        myThread = new Thread(this);
+//        myThread.start();
+//    }
+//    public void run()
+//    {
+//        try {
+//        AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
+//        AudioFormat format = ais.getFormat();
+//  
+//        DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+//        SourceDataLine source = (SourceDataLine) AudioSystem.getLine(info);
+//        source.open(format);
+//        source.start();
+//        int read = 0;
+//        byte[] audioData = new byte[16384];
+//        while (!stopPlaying && read > -1){
+//            read = ais.read(audioData,0,audioData.length);
+//            if (read >= 0) {
+//                source.write(audioData,0,read);
+//            }
+//        }
+//        donePlaying = true;
+//
+//        source.drain();
+//        source.close();
+//        }
+//        catch (Exception exc) {
+//            System.out.println("error: " + exc.getMessage());
+//            exc.printStackTrace();
+//        }
+//    }
+//}
+
+
+
+
+
+
+
